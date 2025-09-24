@@ -35,17 +35,15 @@ tm_shape(main_border,
               fill.scale = tm_scale_categorical(
                 values = c('#84b7ee','#ffa95b','#96cfa6'),
                 value.na = "transparent"
-              )) +
+              ),
+              fill.legend = tm_legend(title = "NTU Policy Year")) +
   tm_shape(cn_border) +
   tm_lines(col ='#9d98b7', lwd = 2.5) +
   tm_scalebar(position = c(0.05,0.01)) +
   tm_compass(position = c(0.05,0.9),
              just = 'center', size = 1.5,
              text.size = .65, show.labels = 1) +
-  tm_layout(legend.width = 0.75,
-            legend.text.size = 1,
-            legend.height = 1.75,
-            legend.position = c(0.045,0.075),
+  tm_layout(legend.position = c(0.045,0.075),
             compass.type = "arrow",
             text.fontfamily = "serif") -> cn_mainplot
 
@@ -56,9 +54,9 @@ tm_shape(tenline,
   tm_rgb() +
   tm_shape(province) +
   tm_fill(col = 'white',fill_alpha = .5) +
-  tm_borders(col = 'grey40', lwd = 1.25) +
+  tm_borders(col = 'grey40', lwd = 0.05) +
   tm_shape(city) +
-  tm_polygons(col = 'policy', alpha = .75,lwd = .5,
+  tm_polygons(col = 'policy', alpha = .75,lwd = 0.05,
               border.alpha = .45,border.col = NA,
               palette = c('#84b7ee','#ffa95b','#96cfa6'),
               title = '',legend.show = F) +
@@ -73,7 +71,5 @@ cowplot::ggdraw() +
                      x = 0.430,
                      y = 0.018) -> cn_plot
 
-ggview::canvas(cn_plot,7.25,6)
-
 ggplot2::ggsave('./fig.pdf',device = cairo_pdf,
-       plot = cn_plot, width = 7.25, height = 6)
+                plot = cn_plot, width = 7.25, height = 6)
