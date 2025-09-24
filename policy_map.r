@@ -36,30 +36,36 @@ tm_shape(main_border,
                 values = c('#84b7ee','#ffa95b','#96cfa6'),
                 value.na = "transparent"
               ),
-              fill.legend = tm_legend(title = "NTU Policy Year")) +
+              fill.legend = tm_legend(title = "NTU Policy Year",
+                                      na.show = FALSE)) +
   tm_shape(cn_border) +
   tm_lines(col ='#9d98b7', lwd = 2.5) +
-  tm_scalebar(position = c(0.05,0.01)) +
-  tm_compass(position = c(0.05,0.9),
+  tm_scalebar(position = c(0.01,-0.005)) +
+  tm_compass(position = c(0.01,0.99),
              just = 'center', size = 1.5,
              text.size = .65, show.labels = 1) +
-  tm_layout(legend.position = c(0.045,0.075),
+  tm_layout(legend.position = c(0.05,0.15),
             compass.type = "arrow",
             text.fontfamily = "serif") -> cn_mainplot
 
 tm_shape(tenline,
          crs = sf::st_crs(albers)) +
-  tm_lines(col=NA,lwd=0.01) +
+  tm_lines(lwd=0.01) +
   tm_shape(hyp) +
   tm_rgb() +
   tm_shape(province) +
   tm_fill(col = 'white',fill_alpha = .5) +
   tm_borders(col = 'grey40', lwd = 0.05) +
   tm_shape(city) +
-  tm_polygons(col = 'policy', alpha = .75,lwd = 0.05,
-              border.alpha = .45,border.col = NA,
-              palette = c('#84b7ee','#ffa95b','#96cfa6'),
-              title = '',legend.show = F) +
+  tm_polygons(fill = 'policy',
+              fill_alpha = .75, lwd = 0.05,
+              col_alpha = .45, col = NA,
+              fill.scale = tm_scale_categorical(
+                values = c('#84b7ee','#ffa95b','#96cfa6'),
+                value.na = "transparent"
+              ),
+              fill.legend = tm_legend(title = "NTU Policy Year",
+                                      show = FALSE)) +
   tm_shape(cn_border) +
   tm_lines(col='#9d98b7',lwd = 2.5) -> cn_miniplot
 
