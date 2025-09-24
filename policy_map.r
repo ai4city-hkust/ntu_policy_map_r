@@ -38,9 +38,7 @@ tm_shape(main_border,
               )) +
   tm_shape(cn_border) +
   tm_lines(col ='#9d98b7', lwd = 2.5) +
-  tm_scalebar(position = c(0.05,0.01),
-               width = 0.15,text.size = 1.05,
-               lwd = 2) +
+  tm_scalebar(position = c(0.05,0.01)) +
   tm_compass(position = c(0.05,0.9),
              just = 'center', size = 1.5,
              text.size = .65, show.labels = 1) +
@@ -51,29 +49,31 @@ tm_shape(main_border,
             compass.type = "arrow",
             text.fontfamily = "serif") -> cn_mainplot
 
-tm_shape(nineline,
-         projection = st_crs(albers)) +
+tm_shape(tenline,
+         crs = sf::st_crs(albers)) +
   tm_lines(col=NA,lwd=0.01) +
   tm_shape(hyp) +
   tm_rgb() +
   tm_shape(province) +
-  tm_fill(col = 'white',alpha = .5) +
+  tm_fill(col = 'white',fill_alpha = .5) +
   tm_borders(col = 'grey40', lwd = 1.25) +
   tm_shape(city) +
-  tm_polygons(col = 'region', alpha = .75,lwd = .5,
+  tm_polygons(col = 'policy', alpha = .75,lwd = .5,
               border.alpha = .45,border.col = NA,
               palette = c('#84b7ee','#ffa95b','#96cfa6'),
               title = '',legend.show = F) +
   tm_shape(cn_border) +
   tm_lines(col='#9d98b7',lwd = 2.5) -> cn_miniplot
 
-ggdraw() +
-  draw_plot(tmap_grob(cn_mainplot)) +
-  draw_plot(tmap_grob(cn_miniplot),
-            halign = 0.5,valign = 0.5,
-            height = 0.2,
-            x = 0.430,
-            y = 0.018) -> cn_plot
+cowplot::ggdraw() +
+  cowplot::draw_plot(tmap::tmap_grob(cn_mainplot)) +
+  cowplot::draw_plot(tmap::tmap_grob(cn_miniplot),
+                     halign = 0.5,valign = 0.5,
+                     height = 0.2,
+                     x = 0.430,
+                     y = 0.018) -> cn_plot
 
-ggsave('./figs/fig1.pdf',device = cairo_pdf,
-       plot = cn_plot,width = 7.25,height = 6)
+ggview::canvas(cn_plot,7.25,6)
+
+ggplot2::ggsave('./fig.pdf',device = cairo_pdf,
+       plot = cn_plot, width = 7.25, height = 6)
