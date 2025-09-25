@@ -37,16 +37,15 @@ tm_shape(main_border,
                 value.na = "transparent"
               ),
               fill.legend = tm_legend(title = "NTU Policy Year",
-                                      na.show = FALSE)) +
+                                      na.show = FALSE,
+                                      position = c(-0.175, 0.175))) +
   tm_shape(cn_border) +
   tm_lines(col ='#9d98b7', lwd = 2.5) +
-  tm_scalebar(position = c(0.01,-0.005)) +
-  tm_compass(position = c(0.01,0.99),
+  tm_scalebar(position = c("left", "bottom")) +
+  tm_compass(position = c("left", "top"),
              just = 'center', size = 1.5,
              text.size = .65, show.labels = 1) +
-  tm_layout(legend.position = c(0.05,0.15),
-            compass.type = "arrow",
-            text.fontfamily = "serif") -> cn_mainplot
+  tm_layout(text.fontfamily = "serif") -> cn_mainplot
 
 tm_shape(tenline,
          crs = sf::st_crs(albers)) +
@@ -77,5 +76,5 @@ cowplot::ggdraw() +
                      x = 0.430,
                      y = 0.018) -> cn_plot
 
-ggplot2::ggsave('./fig.pdf',device = cairo_pdf,
+ggplot2::ggsave('./fig.pdf', device = cairo_pdf,
                 plot = cn_plot, width = 7.25, height = 6)
